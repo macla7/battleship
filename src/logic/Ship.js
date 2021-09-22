@@ -6,6 +6,7 @@ const Ship = (length, direction, anchor) => {
   const getHits = () => hits;
   const getSunk = () => sunk;
   const getLength = () => length;
+  const getSquares = () => squares;
 
   function initShip() {
     for (let i = 0; i < length; i += 1) {
@@ -21,12 +22,10 @@ const Ship = (length, direction, anchor) => {
   initShip();
 
   function isSunk() {
+    console.log("hello", hits.length, length);
     if (hits.length === length) {
-      console.log("hello?");
       sunk = true;
     }
-    console.log(sunk);
-    console.log(hits.length, length);
   }
 
   const hit = (arr) => {
@@ -37,9 +36,10 @@ const Ship = (length, direction, anchor) => {
       return false;
     });
     hits.push(potHit[0]);
+    isSunk();
   };
 
-  return { getLength, getHits, getSunk, hit, isSunk };
+  return { getSquares, getLength, getHits, getSunk, hit, isSunk };
 };
 
 export default Ship;

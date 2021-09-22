@@ -18,6 +18,16 @@ describe("createShip", () => {
     expect(ship.getSunk()).toBe(false);
   });
 
+  test("ship has getter for squares prop", () => {
+    expect(ship.getSquares()).toEqual(
+      expect.arrayContaining([
+        [2, 2],
+        [2, 1],
+      ])
+    );
+    expect(ship.getSquares().length).toBe(ship.getLength());
+  });
+
   test("hit method adds x&y to hits prop", () => {
     ship.hit([2, 2]);
     expect(ship.getHits()).toEqual(expect.arrayContaining([[2, 2]]));
