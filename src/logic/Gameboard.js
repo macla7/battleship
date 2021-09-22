@@ -34,9 +34,11 @@ const Gameboard = (Ship) => {
     }
     if (square === "e") {
       grid[coords[0]][coords[1]] = "h";
+      return true;
     } else {
       hitShip(ships[square - 1], coords);
       grid[coords[0]][coords[1]] = "h";
+      return true;
     }
   }
 

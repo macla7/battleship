@@ -17,20 +17,28 @@ describe("create Gameboard", () => {
     expect(gameboard.getShips().length).toBe(1);
   });
 
-  test("recieveAttack sends mutates grid & hit command IS sent", () => {
+  test("recieveAttack mutates grid, sends hit command, returns true", () => {
     const mockHitShip = jest.fn();
-    gameboard.recieveAttack([2, 2], mockHitShip);
+    expect(gameboard.recieveAttack([2, 2], mockHitShip)).toBe(true);
 
     expect(mockHitShip.mock.calls.length).toBe(1);
     expect(gameboard.grid[2][2]).toBe("h");
   });
 
-  test("recieveAttack sends mutates grid & hit command NOT sent", () => {
+  test("recieveAttack mutates grid, returns true", () => {
     const mockHitShip = jest.fn();
-    gameboard.recieveAttack([1, 2], mockHitShip);
+    expect(gameboard.recieveAttack([1, 2], mockHitShip)).toBe(true);
 
     expect(mockHitShip.mock.calls.length).toBe(0);
     expect(gameboard.grid[1][2]).toBe("h");
+  });
+
+  test("recieveAttack returns false if already hit", () => {
+    const mockHitShip = jest.fn();
+    gameboard.recieveAttack([1, 2]);
+    expect(gameboard.grid[1][2]).toBe("h");
+    expect(gameboard.recieveAttack([1, 2], mockHitShip)).toBe(false);
+    expect(mockHitShip.mock.calls.length).toBe(0);
   });
 
   test("allSunk returns true if all sunk", () => {

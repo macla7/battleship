@@ -22,7 +22,6 @@ const Ship = (length, direction, anchor) => {
   initShip();
 
   function isSunk() {
-    console.log("hello", hits.length, length);
     if (hits.length === length) {
       sunk = true;
     }
