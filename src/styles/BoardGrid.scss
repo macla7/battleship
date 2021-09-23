@@ -1,0 +1,12 @@
+.boardGrid {
+  display: grid;
+  grid-template-columns: repeat(10, 32px);
+
+  .square {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    height: 30px;
+  }
+}

@@ -1,7 +1,10 @@
+import GameLoop from "./components/GameLoop";
+
 function App() {
   return (
     <div className="App">
-      <header className="App-header">Learn React</header>
+      <header className="App-header">Battleship</header>
+      <GameLoop />
     </div>
   );
 }
