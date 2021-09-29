@@ -5,40 +5,84 @@ import Ship from "../logic/Ship";
 import BoardGrid from "./BoardGrid";
 
 let humanBoard = Gameboard(Ship);
-let compBoard = Gameboard(Ship);
+let compBoard = Gameboard(Ship, "comp");
 let human = Player(humanBoard, "human");
-human.gameboard.placeShip(3, "down", [4, 2]);
-human.gameboard.placeShip(2, "across", [1, 5]);
 let comp = Player(compBoard, "comp");
 
 function GameLoop() {
-  const [grid, setGrid] = useState(human.gameboard.grid);
+  // function setUp() {
+  //   let humanBoard = Gameboard(Ship);
+  //   let compBoard = Gameboard(Ship, "comp");
+  //   let human = Player(humanBoard, "human");
+  //   let comp = Player(compBoard, "comp");
+  // }
 
-  function handleClick(coords) {
-    human.attack(comp.gameboard, coords);
+  const [hummanGrid, setHumanGrid] = useState(human.gameboard.grid);
+  const [setupDone, setSetupDone] = useState(false);
+
+  function handleShoot(coords) {
+    let newAttack = human.attack(comp.gameboard, coords);
+    if (!newAttack) {
+      return false;
+    }
     if (comp.gameboard.allSunk(comp.gameboard.getShips())) {
-      // return "Player Won";
+      console.log("did we win?");
+      alert("You've won!");
     }
     comp.randomAttack(human.gameboard);
     if (human.gameboard.allSunk(human.gameboard.getShips())) {
-      // return "Comp Won";
+      alert("Skynet won, goodbye!");
     }
-
-    setGrid([...human.gameboard.grid]);
+    setHumanGrid([...human.gameboard.grid]);
+    // setCompGrid([...comp.gameboard.grid]);
   }
 
-  return (
-    <div>
-      {/* Render setUp */}
-      {/* Render Game */}
-      <BoardGrid grid={human.gameboard.grid} handleClick={handleClick} />
-      <h1>
-        {" "}
-        ------------------------------------------------------------------
-      </h1>
-      <BoardGrid grid={comp.gameboard.grid} handleClick={handleClick} />
-    </div>
-  );
+  function handlePlace(coords) {
+    console.log("hello boi");
+    console.log(human.gameboard.getShips());
+    let direction = document.getElementById("directionForm").value;
+    human.gameboard.placeShip(direction, coords);
+    console.log(human.gameboard.getShips());
+    setHumanGrid([...humanBoard.grid]);
+    if (humanBoard.getShips().length === 5) {
+      setSetupDone(true);
+    }
+  }
+
+  if (!setupDone) {
+    return (
+      <div>
+        <select id="directionForm">
+          <option value="down">Down</option>
+          <option value="across">Across</option>
+        </select>
+        <BoardGrid grid={hummanGrid} human={true} handleClick={handlePlace} />
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        {/* Render setUp */}
+        {/* Render Game */}
+        <BoardGrid
+          grid={human.gameboard.grid}
+          hits={human.gameboard.getHits()}
+          human={true}
+          handleClick={handleShoot}
+        />
+        <h1>
+          {" "}
+          ------------------------------------------------------------------
+        </h1>
+        <BoardGrid
+          grid={comp.gameboard.grid}
+          hits={comp.gameboard.getHits()}
+          human={false}
+          handleClick={handleShoot}
+        />
+      </div>
+    );
+  }
 }
 
 export default GameLoop;

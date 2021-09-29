@@ -1,3 +1,5 @@
+My Own Notes: Only just dawned on me how to properly 'test' private methods. Before I was mocking the calls to private methods, which then meant I essentially just had to make them public.. so all that doesn't really make any sense and is fairly stupid. Alas, the solution is to test my private methods by testing that their functionality was correclty implemented in the public methods that call them. SO, you essetially test your private methods inadvertly whilst you are unit testing your public methods. This makes so much more sense now...
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
