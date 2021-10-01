@@ -35,6 +35,13 @@ describe("create Gameboard", () => {
     expect(gameboard.recieveAttack([1, 2])).toBe(false);
   });
 
+  test("on 'sh'. recieveAttack returns false if already hit", () => {
+    gameboard.recieveAttack([2, 2]);
+    expect(gameboard.getHits()).toContainEqual([2, 2]);
+    expect(gameboard.grid[2][2]).toBe("sh");
+    expect(gameboard.recieveAttack([2, 2])).toBe(false);
+  });
+
   test("allSunk returns true if all sunk", () => {
     const getSunk = jest.fn();
     getSunk.mockReturnValue(true);
@@ -49,5 +56,10 @@ describe("create Gameboard", () => {
 
     const mockShips = [{ getSunk }, { getSunk }];
     expect(gameboard.allSunk(mockShips)).toBe(false);
+  });
+
+  test("placerandom places ship randomly", () => {
+    gameboard.placeRandom();
+    expect(gameboard.getShips().length).toBe(2);
   });
 });

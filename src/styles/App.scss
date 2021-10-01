@@ -1,0 +1,32 @@
+* {
+  box-sizing: border-box;
+}
+
+.AppCont {
+  background-image: linear-gradient(
+      rgba(60, 60, 60, 0.7),
+      rgba(60, 60, 60, 0.7)
+    ),
+    url("../wallpaper.jpg");
+  background-size: cover;
+  height: 100vh;
+  color: white;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+}
+
+.App {
+  background-color: rgba(0, 0, 50, 0.85);
+  padding: 3rem;
+  border-radius: 10px;
+  h1 {
+    font-size: 4rem;
+    font-family: "Iceland";
+  }
+}
+
+header {
+  display: flex;
+  justify-content: center;
+}

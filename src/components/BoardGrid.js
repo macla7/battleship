@@ -2,6 +2,7 @@ import { isInteger } from "lodash";
 import React from "react";
 import uniqid from "uniqid";
 import Square from "./Square";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function BoardGrid(props) {
   const squares = props.grid.map((colArr, i) => {
@@ -12,19 +13,19 @@ function BoardGrid(props) {
         {revCol.map((square, j) => {
           let hitClass = "";
           let shipClass = "";
-          let value = "";
+          let icon = "";
           if (props.human) {
             if (isInteger(square)) {
-              value = "⛴";
+              icon = "ship";
               shipClass = "ship";
             }
           }
-          if (square === "h" || square === "sh") {
-            value = "X";
+          if (square === "h") {
+            icon = "water";
           }
           if (square === "sh") {
-            value = "🔥";
-            hitClass = "shipHit";
+            icon = "fire";
+            hitClass = "hit fresh";
           }
           let xCoord = i;
           let yCoord = revCol.length - j - 1;
@@ -33,12 +34,15 @@ function BoardGrid(props) {
             <Square
               xCoord={xCoord}
               yCoord={yCoord}
-              value={value}
               handleClick={props.handleClick}
               key={uniqid()}
               hitClass={hitClass}
               shipClass={shipClass}
-            />
+              human={props.human}
+              setupDone={props.setupDone}
+            >
+              {icon === "" ? "" : <FontAwesomeIcon icon={icon} />}
+            </Square>
           );
         })}
       </div>
