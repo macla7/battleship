@@ -1,5 +1,3 @@
-import { intersectionWith } from "lodash";
-
 const Gameboard = (Ship) => {
   let grid = [
     ["e", "e", "e", "e", "e", "e", "e", "e", "e", "e"],
@@ -19,6 +17,7 @@ const Gameboard = (Ship) => {
 
   const getShips = () => ships;
   const getHits = () => hits;
+  const getShipLengths = () => shipLengths;
 
   function placeShip(direction, anchor) {
     if (direction === "down" && anchor[1] - shipLengths[ships.length] < -1) {
@@ -111,6 +110,7 @@ const Gameboard = (Ship) => {
     allSunk,
     getHits,
     placeRandom,
+    getShipLengths,
   };
 };
 

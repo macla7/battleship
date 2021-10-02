@@ -3,9 +3,19 @@ import React from "react";
 import uniqid from "uniqid";
 import Square from "./Square";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import shipboi from "../shipboi.png";
+import { isEqual } from "lodash";
 
-function BoardGrid(props) {
-  const squares = props.grid.map((colArr, i) => {
+function BoardGrid({
+  grid,
+  human,
+  hovered = [],
+  handleClick,
+  setupDone,
+  hoverGuide,
+}) {
+  console.log("Board rendered");
+  const squares = grid.map((colArr, i) => {
     let revCol = [...colArr].reverse();
 
     return (
@@ -13,8 +23,9 @@ function BoardGrid(props) {
         {revCol.map((square, j) => {
           let hitClass = "";
           let shipClass = "";
+          let hoverClass = "";
           let icon = "";
-          if (props.human) {
+          if (human) {
             if (isInteger(square)) {
               icon = "ship";
               shipClass = "ship";
@@ -29,19 +40,33 @@ function BoardGrid(props) {
           }
           let xCoord = i;
           let yCoord = revCol.length - j - 1;
+          let isHovered = hovered.filter((coords) =>
+            isEqual(coords, [xCoord, yCoord])
+          );
+          if (isHovered.length !== 0) {
+            hoverClass = "hovered";
+          }
 
           return (
             <Square
               xCoord={xCoord}
               yCoord={yCoord}
-              handleClick={props.handleClick}
+              handleClick={handleClick}
               key={uniqid()}
               hitClass={hitClass}
               shipClass={shipClass}
-              human={props.human}
-              setupDone={props.setupDone}
+              hoverClass={hoverClass}
+              human={human}
+              setupDone={setupDone}
+              hoverGuide={hoverGuide}
             >
-              {icon === "" ? "" : <FontAwesomeIcon icon={icon} />}
+              {icon === "ship" ? (
+                <img src={shipboi} alt="Your Ship" />
+              ) : icon === "" ? (
+                ""
+              ) : (
+                <FontAwesomeIcon icon={icon} />
+              )}
             </Square>
           );
         })}

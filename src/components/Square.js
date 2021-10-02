@@ -10,6 +10,8 @@ function Square({
   children,
   human,
   setupDone,
+  hoverGuide,
+  hoverClass,
 }) {
   function shoot(e) {
     handleClick([xCoord, yCoord], e);
@@ -23,11 +25,19 @@ function Square({
     }
   }
 
+  function handleHover() {
+    console.log(setupDone);
+    if (!setupDone) {
+      hoverGuide([xCoord, yCoord]);
+    }
+  }
+
   return (
     <div
       onAnimationEnd={shoot}
       onClick={startAnim}
-      className={"square " + hitClass + " " + shipClass}
+      onMouseEnter={handleHover}
+      className={"square " + hitClass + " " + shipClass + " " + hoverClass}
     >
       <div className={anim}>{children}</div>
     </div>

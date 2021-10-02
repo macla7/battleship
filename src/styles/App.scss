@@ -18,15 +18,41 @@
 
 .App {
   background-color: rgba(0, 0, 50, 0.85);
-  padding: 3rem;
+  padding: 1rem 3rem;
   border-radius: 10px;
   h1 {
     font-size: 4rem;
     font-family: "Iceland";
   }
+  font-family: "Iceland";
 }
 
-header {
+header,
+nav {
   display: flex;
   justify-content: center;
+}
+
+nav {
+  margin: 1rem;
+}
+
+button,
+select {
+  background-color: rgb(148, 81, 0);
+  color: rgb(255, 255, 255);
+  font-family: "Iceland";
+  font-size: 1.5rem;
+  border-radius: 5px;
+  border: 1px solid white;
+  margin: 1rem;
+}
+
+.iconCredits {
+  font-family: "Iceland";
+  font-size: 0.8rem;
+
+  a {
+    color: white;
+  }
 }

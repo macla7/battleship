@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import Ship from "../logic/Ship";
 import BoardGrid from "./BoardGrid";
 import island from "../island.png";
 
@@ -11,11 +11,13 @@ function GameLoop({
   setupDone,
   handleSetupFinish,
 }) {
-  console.log(human, "in game loop", setupDone);
+  console.log("Game loop rendered");
 
   const [humanGrid, setHumanGrid] = useState(human.gameboard.grid);
   const [finished, setFinished] = useState(false);
+  const [hovered, setHovered] = useState([]);
 
+  // Passed down to the square, which calls attack function on Player
   function handleShoot(coords, e) {
     if (finished) {
       return false;
@@ -30,6 +32,7 @@ function GameLoop({
       setFinished(true);
     }
     comp.randomAttack(human.gameboard);
+    comp.randomAttack(human.gameboard);
     if (human.gameboard.allSunk(human.gameboard.getShips())) {
       alert("Skynet won, goodbye!");
       setFinished(true);
@@ -37,6 +40,7 @@ function GameLoop({
     setHumanGrid([...humanBoard.grid]);
   }
 
+  // Calls function to place ship on human gameboard.
   function handlePlace(coords) {
     console.log(human.gameboard.getShips());
     let direction = document.getElementById("directionForm").value;
@@ -49,7 +53,18 @@ function GameLoop({
     if (humanBoard.getShips().length === 5) {
       console.log("bing");
       handleSetupFinish();
+      setFinished(false);
     }
+  }
+
+  // highlights where the ship will go during placement.
+  function hoverGuide(Coords) {
+    let direction = document.getElementById("directionForm").value;
+    let shipNumber = humanBoard.getShips().length;
+    let lengthsArr = humanBoard.getShipLengths();
+    let hoverShip = Ship(lengthsArr[shipNumber], direction, Coords);
+    let hoverCoords = hoverShip.getSquares();
+    setHovered(hoverCoords);
   }
 
   if (!setupDone) {
@@ -64,6 +79,8 @@ function GameLoop({
           human={true}
           setupDone={setupDone}
           handleClick={handlePlace}
+          hovered={hovered}
+          hoverGuide={hoverGuide}
         />
       </div>
     );
@@ -93,6 +110,7 @@ function GameLoop({
           hits={comp.gameboard.getHits()}
           human={false}
           handleClick={handleShoot}
+          setupDone={setupDone}
         />
       </div>
     );
