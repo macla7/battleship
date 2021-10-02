@@ -4,6 +4,7 @@ import { faFire, faShip, faWater } from "@fortawesome/free-solid-svg-icons";
 import Player from "./logic/Player";
 import Gameboard from "./logic/Gameboard";
 import Ship from "./logic/Ship";
+
 import React, { useState } from "react";
 
 function App() {

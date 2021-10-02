@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Ship from "../logic/Ship";
 import BoardGrid from "./BoardGrid";
-import island from "../island.png";
+import island from "../assets/island.png";
 
 function GameLoop({
   humanBoard,
@@ -94,6 +94,7 @@ function GameLoop({
           human={true}
           setupDone={setupDone}
           handleClick={handleShoot}
+          sunkSquares={humanBoard.getSunkSquares()}
         />
         <div>
           <img src={island} alt="island board divider" />
@@ -111,6 +112,7 @@ function GameLoop({
           human={false}
           handleClick={handleShoot}
           setupDone={setupDone}
+          sunkSquares={compBoard.getSunkSquares()}
         />
       </div>
     );

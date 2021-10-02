@@ -39,7 +39,7 @@ function Square({
       onMouseEnter={handleHover}
       className={"square " + hitClass + " " + shipClass + " " + hoverClass}
     >
-      <div className={anim}>{children}</div>
+      <div className={anim + " innerSquare"}>{children}</div>
     </div>
   );
 }

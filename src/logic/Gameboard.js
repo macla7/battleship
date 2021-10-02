@@ -14,10 +14,12 @@ const Gameboard = (Ship) => {
   let ships = [];
   let shipLengths = [5, 4, 3, 3, 2];
   let hits = [];
+  let sunkSquares = [];
 
   const getShips = () => ships;
   const getHits = () => hits;
   const getShipLengths = () => shipLengths;
+  const getSunkSquares = () => sunkSquares;
 
   function placeShip(direction, anchor) {
     if (direction === "down" && anchor[1] - shipLengths[ships.length] < -1) {
@@ -83,6 +85,7 @@ const Gameboard = (Ship) => {
       _hitShip(ships[square - 1], coords);
       grid[coords[0]][coords[1]] = "sh";
       _addHit(coords);
+      calcSunkSquares();
       return true;
     }
   }
@@ -102,6 +105,16 @@ const Gameboard = (Ship) => {
     return notSunk.length === 0 ? true : false;
   }
 
+  function calcSunkSquares() {
+    let sunk = ships.map((ship) => {
+      if (ship.getSunk()) {
+        return ship.getSquares();
+      }
+      return false;
+    });
+    sunkSquares = sunk.flat(1);
+  }
+
   return {
     grid,
     placeShip,
@@ -111,6 +124,8 @@ const Gameboard = (Ship) => {
     getHits,
     placeRandom,
     getShipLengths,
+    getSunkSquares,
+    calcSunkSquares,
   };
 };
 

@@ -1,4 +1,4 @@
-An Odin Project, <a src='https://www.theodinproject.com/paths/full-stack-ruby-on-rails/courses/javascript/lessons/battleship' target='_blank'>project</a>.
+An Odin Project, <a href='https://www.theodinproject.com/paths/full-stack-ruby-on-rails/courses/javascript/lessons/battleship' target='_blank'>project</a>.
 
 <h2>My Own philosophical:</h2> 
 <p>Only just dawned on me how to properly 'test' private methods. Before I was mocking the calls to private methods, which then meant I essentially just had to make them public.. so all that doesn't really make any sense and is fairly stupid. Alas, the solution is to test my private methods by testing that their functionality was correclty implemented in the public methods that call them. SO, you essetially test your private methods inadvertly whilst you are unit testing your public methods. This makes so much more sense now...</p>

@@ -62,4 +62,20 @@ describe("create Gameboard", () => {
     gameboard.placeRandom();
     expect(gameboard.getShips().length).toBe(2);
   });
+
+  test("getSunkSquares to ret arr with all sunk ships sqaures", () => {
+    gameboard.recieveAttack([2, 4]);
+    gameboard.recieveAttack([2, 3]);
+    gameboard.recieveAttack([2, 2]);
+    gameboard.recieveAttack([2, 1]);
+    gameboard.recieveAttack([2, 0]);
+    gameboard.calcSunkSquares();
+    expect(gameboard.getSunkSquares()).toEqual([
+      [2, 4],
+      [2, 3],
+      [2, 2],
+      [2, 1],
+      [2, 0],
+    ]);
+  });
 });

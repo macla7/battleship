@@ -3,7 +3,8 @@ import React from "react";
 import uniqid from "uniqid";
 import Square from "./Square";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import shipboi from "../shipboi.png";
+import shipboi from "../assets/shipboi.png";
+import dead from "../assets/dead.png";
 import { isEqual } from "lodash";
 
 function BoardGrid({
@@ -13,6 +14,7 @@ function BoardGrid({
   handleClick,
   setupDone,
   hoverGuide,
+  sunkSquares = [],
 }) {
   console.log("Board rendered");
   const squares = grid.map((colArr, i) => {
@@ -43,8 +45,14 @@ function BoardGrid({
           let isHovered = hovered.filter((coords) =>
             isEqual(coords, [xCoord, yCoord])
           );
+          let isSunk = sunkSquares.filter((coords) =>
+            isEqual(coords, [xCoord, yCoord])
+          );
           if (isHovered.length !== 0) {
             hoverClass = "hovered";
+          }
+          if (isSunk.length !== 0) {
+            icon = "dead";
           }
 
           return (
@@ -62,6 +70,8 @@ function BoardGrid({
             >
               {icon === "ship" ? (
                 <img src={shipboi} alt="Your Ship" />
+              ) : icon === "dead" ? (
+                <img src={dead} alt="sunk ship" />
               ) : icon === "" ? (
                 ""
               ) : (
