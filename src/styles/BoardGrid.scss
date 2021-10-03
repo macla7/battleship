@@ -39,6 +39,12 @@
   .hit {
     color: orangered;
   }
+
+  .dead {
+    img {
+      height: 20px;
+    }
+  }
 }
 
 @keyframes blast {

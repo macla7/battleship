@@ -4,14 +4,11 @@ function Square({
   xCoord,
   yCoord,
   handleClick,
-  value,
-  hitClass,
-  shipClass,
   children,
   human,
   setupDone,
   hoverGuide,
-  hoverClass,
+  squareClass,
 }) {
   function shoot(e) {
     handleClick([xCoord, yCoord], e);
@@ -37,7 +34,7 @@ function Square({
       onAnimationEnd={shoot}
       onClick={startAnim}
       onMouseEnter={handleHover}
-      className={"square " + hitClass + " " + shipClass + " " + hoverClass}
+      className={squareClass}
     >
       <div className={anim + " innerSquare"}>{children}</div>
     </div>

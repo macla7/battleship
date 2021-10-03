@@ -3,17 +3,13 @@ import Ship from "../logic/Ship";
 import BoardGrid from "./BoardGrid";
 import island from "../assets/island.png";
 
-function GameLoop({
-  humanBoard,
-  compBoard,
-  human,
-  comp,
-  setupDone,
-  handleSetupFinish,
-}) {
+function GameLoop(props) {
   console.log("Game loop rendered");
 
-  const [humanGrid, setHumanGrid] = useState(human.gameboard.grid);
+  // const [humanGrid, setHumanGrid] = useState(props.humanBoard.grid);
+  // const [compGrid, setCompGrid] = useState(props.compBoard.grid);
+  const [human, setHuman] = useState(props.human);
+  const [comp, setComp] = useState(props.comp);
   const [finished, setFinished] = useState(false);
   const [hovered, setHovered] = useState([]);
 
@@ -22,7 +18,8 @@ function GameLoop({
     if (finished) {
       return false;
     }
-    let newAttack = human.attack(comp.gameboard, coords);
+    // BOTH HERE, all we're doing is mutating current state. Let's return a message.
+    let newAttack = props.human.attack(comp.gameboard, coords);
     if (!newAttack) {
       return false;
     }
@@ -31,28 +28,36 @@ function GameLoop({
       alert("You've won!");
       setFinished(true);
     }
-    comp.randomAttack(human.gameboard);
-    comp.randomAttack(human.gameboard);
+
+    // BOTH HERE, all we're doing is mutating current state. Let's return a message.
+    props.comp.randomAttack(human.gameboard);
+    props.comp.randomAttack(human.gameboard);
     if (human.gameboard.allSunk(human.gameboard.getShips())) {
       alert("Skynet won, goodbye!");
       setFinished(true);
     }
-    setHumanGrid([...humanBoard.grid]);
+
+    // If I was returning messages here (from pure functions) I could then update the relevant props... 🤔
+    console.log("1.", human);
+    setHuman((prevState) => ({ ...prevState }));
+    setComp((prevState) => ({ ...prevState }));
+    console.log("2", human);
+
+    console.log(props.human.gameboard.grid);
   }
 
   // Calls function to place ship on human gameboard.
   function handlePlace(coords) {
-    console.log(human.gameboard.getShips());
     let direction = document.getElementById("directionForm").value;
     if (!human.gameboard.placeShip(direction, coords)) {
       console.log("hello boi");
       return false;
     }
     console.log(human.gameboard.getShips());
-    setHumanGrid([...humanBoard.grid]);
-    if (humanBoard.getShips().length === 5) {
+    setHuman((prevState) => ({ ...prevState }));
+    if (human.gameboard.getShips().length === 5) {
       console.log("bing");
-      handleSetupFinish();
+      props.handleSetupFinish();
       setFinished(false);
     }
   }
@@ -60,14 +65,14 @@ function GameLoop({
   // highlights where the ship will go during placement.
   function hoverGuide(Coords) {
     let direction = document.getElementById("directionForm").value;
-    let shipNumber = humanBoard.getShips().length;
-    let lengthsArr = humanBoard.getShipLengths();
+    let shipNumber = human.gameboard.getShips().length;
+    let lengthsArr = human.gameboard.getShipLengths();
     let hoverShip = Ship(lengthsArr[shipNumber], direction, Coords);
     let hoverCoords = hoverShip.getSquares();
     setHovered(hoverCoords);
   }
 
-  if (!setupDone) {
+  if (!props.setupDone) {
     return (
       <div className="gameSpace">
         <select id="directionForm">
@@ -77,7 +82,7 @@ function GameLoop({
         <BoardGrid
           grid={human.gameboard.grid}
           human={true}
-          setupDone={setupDone}
+          setupDone={props.setupDone}
           handleClick={handlePlace}
           hovered={hovered}
           hoverGuide={hoverGuide}
@@ -89,12 +94,12 @@ function GameLoop({
       <div className="gameSpace">
         <BoardGrid
           // why use state here but access to props on computer..?
-          grid={humanGrid}
+          grid={human.gameboard.grid}
           hits={human.gameboard.getHits()}
           human={true}
-          setupDone={setupDone}
+          setupDone={props.setupDone}
           handleClick={handleShoot}
-          sunkSquares={humanBoard.getSunkSquares()}
+          sunkSquares={human.gameboard.getSunkSquares()}
         />
         <div>
           <img src={island} alt="island board divider" />
@@ -111,8 +116,8 @@ function GameLoop({
           hits={comp.gameboard.getHits()}
           human={false}
           handleClick={handleShoot}
-          setupDone={setupDone}
-          sunkSquares={compBoard.getSunkSquares()}
+          setupDone={props.setupDone}
+          sunkSquares={comp.gameboard.getSunkSquares()}
         />
       </div>
     );

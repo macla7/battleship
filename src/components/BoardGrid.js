@@ -23,14 +23,14 @@ function BoardGrid({
     return (
       <div className="column" key={uniqid()}>
         {revCol.map((square, j) => {
-          let hitClass = "";
-          let shipClass = "";
-          let hoverClass = "";
+          let squareClass = "square";
           let icon = "";
+          let xCoord = i;
+          let yCoord = revCol.length - j - 1;
           if (human) {
             if (isInteger(square)) {
               icon = "ship";
-              shipClass = "ship";
+              squareClass += " ship";
             }
           }
           if (square === "h") {
@@ -38,10 +38,9 @@ function BoardGrid({
           }
           if (square === "sh") {
             icon = "fire";
-            hitClass = "hit fresh";
+            squareClass += " hit";
           }
-          let xCoord = i;
-          let yCoord = revCol.length - j - 1;
+
           let isHovered = hovered.filter((coords) =>
             isEqual(coords, [xCoord, yCoord])
           );
@@ -49,10 +48,11 @@ function BoardGrid({
             isEqual(coords, [xCoord, yCoord])
           );
           if (isHovered.length !== 0) {
-            hoverClass = "hovered";
+            squareClass += " hovered";
           }
           if (isSunk.length !== 0) {
             icon = "dead";
+            squareClass += " dead";
           }
 
           return (
@@ -61,9 +61,7 @@ function BoardGrid({
               yCoord={yCoord}
               handleClick={handleClick}
               key={uniqid()}
-              hitClass={hitClass}
-              shipClass={shipClass}
-              hoverClass={hoverClass}
+              squareClass={squareClass}
               human={human}
               setupDone={setupDone}
               hoverGuide={hoverGuide}

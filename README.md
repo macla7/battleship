@@ -6,3 +6,7 @@ An Odin Project, <a href='https://www.theodinproject.com/paths/full-stack-ruby-o
 <h2>Notes about Project:</h2> 
 <p>Used flaticon and font awesome for icons. Game logic is build off 3 factory functions, ship, gameboard, player, which are then fed to the React components.</p>
 <p>There are also some questionable uses of state. Need to research further and consider WHERE and just how much to be really putting into state. I believe there is problem way too much unecessary re-rendering of everything in this app.</p>
+
+<h2>Possible extra features</h2>
+<p>Human vs Human with some kind of cover screen whilst they pass device between them.</p>
+<p>Smart AI lol.</p>
