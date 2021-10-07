@@ -4,41 +4,53 @@ const Ship = (length, direction, anchor) => {
   let squares = [];
 
   const getHits = () => hits;
+  const setHits = (arr) => (hits = arr);
   const getSunk = () => sunk;
-  const getLength = () => length;
-  const getSquares = () => squares;
+  const setSunk = (bool) => (sunk = bool);
 
+  const getSquares = () => squares;
+  const setSquares = (arr) => (squares = arr);
+
+  // Creates squares array for ship.
   function initShip() {
+    let squaresHold = [];
     for (let i = 0; i < length; i += 1) {
       if (direction === "down") {
-        squares.push([anchor[0], anchor[1] - i]);
+        squaresHold.push([anchor[0], anchor[1] - i]);
       }
       if (direction === "across") {
-        squares.push([anchor[0] + i, anchor[1]]);
+        squaresHold.push([anchor[0] + i, anchor[1]]);
       }
     }
+    setSquares(squaresHold);
   }
 
   initShip();
 
+  // If hit squares length is same as length, then returns true
   function isSunk() {
-    if (hits.length === length) {
-      sunk = true;
+    if (getHits().length === length) {
+      setSunk(true);
     }
   }
 
-  const hit = (arr) => {
-    const potHit = squares.filter((coor) => {
-      if (coor[0] === arr[0] && coor[1] === arr[1]) {
-        return true;
-      }
-      return false;
-    });
-    hits.push(potHit[0]);
-    isSunk();
+  // on correct hit, adds to hits array and checks if sunk.
+  const hit = (coords) => {
+    const potHit = _isShipsSqu(coords);
+    if (potHit.length !== 0) {
+      setHits([...getHits(), potHit[0]]);
+      isSunk();
+    }
   };
 
-  return { getSquares, getLength, getHits, getSunk, hit, isSunk };
+  // If ship has square, returns square.
+  function _isShipsSqu(coords) {
+    return getSquares().filter(
+      (squ) => squ[0] === coords[0] && squ[1] === coords[1]
+    );
+  }
+
+  return { getSquares, getHits, getSunk, hit, isSunk };
 };
 
 export default Ship;

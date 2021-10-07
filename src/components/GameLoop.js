@@ -2,62 +2,89 @@ import React, { useState } from "react";
 import Ship from "../logic/Ship";
 import BoardGrid from "./BoardGrid";
 import island from "../assets/island.png";
+import Player from "../logic/Player";
+import Gameboard from "../logic/Gameboard";
+
+let humanBoard;
+let human;
+let compBoard;
+let comp;
 
 function GameLoop(props) {
-  console.log("Game loop rendered");
+  console.log("gameloop rendered");
+
+  function newGame() {
+    console.log("NEW GAME MADE");
+    humanBoard = Gameboard(Ship);
+    compBoard = Gameboard(Ship, "comp");
+    human = Player(humanBoard, "human");
+    comp = Player(compBoard, "comp");
+    compBoard.placeRandom();
+    compBoard.placeRandom();
+    compBoard.placeRandom();
+    compBoard.placeRandom();
+    compBoard.placeRandom();
+
+    return { humanBoard, compBoard, human, comp };
+  }
 
   // const [humanGrid, setHumanGrid] = useState(props.humanBoard.grid);
   // const [compGrid, setCompGrid] = useState(props.compBoard.grid);
-  const [human, setHuman] = useState(props.human);
-  const [comp, setComp] = useState(props.comp);
+  // const [human, setHuman] = useState(props.human);
+  // const [comp, setComp] = useState(props.comp);
+
   const [finished, setFinished] = useState(false);
+  const [setupDone, setSetupDone] = useState(false);
   const [hovered, setHovered] = useState([]);
+  const [turn, setTurn] = useState(0);
+  const [activeHuman, setActiveHuman] = useState([]);
+  const [activeComp, setActiveComp] = useState([]);
+  const [gameStateNum, setGameStateNum] = useState(0);
+
+  if (gameStateNum !== props.gameNum) {
+    newGame();
+    setSetupDone(false);
+    setGameStateNum(props.gameNum);
+    setTurn(0);
+    console.log("turn", turn);
+  }
 
   // Passed down to the square, which calls attack function on Player
-  function handleShoot(coords, e) {
+  function handleShoot(coords, element) {
     if (finished) {
       return false;
     }
-    // BOTH HERE, all we're doing is mutating current state. Let's return a message.
-    let newAttack = props.human.attack(comp.gameboard, coords);
+
+    let newAttack = human.attack(comp.gameboard, coords);
     if (!newAttack) {
       return false;
     }
+    setActiveHuman([coords]);
+
+    setTurn((prevCount) => prevCount + 1);
     if (comp.gameboard.allSunk(comp.gameboard.getShips())) {
-      console.log("did we win?");
       alert("You've won!");
       setFinished(true);
     }
 
-    // BOTH HERE, all we're doing is mutating current state. Let's return a message.
-    props.comp.randomAttack(human.gameboard);
-    props.comp.randomAttack(human.gameboard);
+    let compArr = comp.randomAttack(human.gameboard, 1);
+    setActiveComp(compArr);
+
     if (human.gameboard.allSunk(human.gameboard.getShips())) {
       alert("Skynet won, goodbye!");
       setFinished(true);
     }
-
-    // If I was returning messages here (from pure functions) I could then update the relevant props... 🤔
-    console.log("1.", human);
-    setHuman((prevState) => ({ ...prevState }));
-    setComp((prevState) => ({ ...prevState }));
-    console.log("2", human);
-
-    console.log(props.human.gameboard.grid);
   }
 
   // Calls function to place ship on human gameboard.
   function handlePlace(coords) {
     let direction = document.getElementById("directionForm").value;
     if (!human.gameboard.placeShip(direction, coords)) {
-      console.log("hello boi");
       return false;
     }
-    console.log(human.gameboard.getShips());
-    setHuman((prevState) => ({ ...prevState }));
+    // setHuman((prevState) => ({ ...prevState }));
     if (human.gameboard.getShips().length === 5) {
-      console.log("bing");
-      props.handleSetupFinish();
+      setSetupDone(true);
       setFinished(false);
     }
   }
@@ -72,7 +99,7 @@ function GameLoop(props) {
     setHovered(hoverCoords);
   }
 
-  if (!props.setupDone) {
+  if (!setupDone) {
     return (
       <div className="gameSpace">
         <select id="directionForm">
@@ -80,9 +107,9 @@ function GameLoop(props) {
           <option value="across">Across</option>
         </select>
         <BoardGrid
-          grid={human.gameboard.grid}
+          grid={human.gameboard.getGrid()}
           human={true}
-          setupDone={props.setupDone}
+          setupDone={setupDone}
           handleClick={handlePlace}
           hovered={hovered}
           hoverGuide={hoverGuide}
@@ -92,14 +119,18 @@ function GameLoop(props) {
   } else {
     return (
       <div className="gameSpace">
+        <div>
+          Game Number: {props.gameNum} - Turn count: {turn}
+        </div>
         <BoardGrid
           // why use state here but access to props on computer..?
-          grid={human.gameboard.grid}
+          grid={human.gameboard.getGrid()}
           hits={human.gameboard.getHits()}
           human={true}
-          setupDone={props.setupDone}
+          setupDone={setupDone}
           handleClick={handleShoot}
           sunkSquares={human.gameboard.getSunkSquares()}
+          activeSquares={activeComp}
         />
         <div>
           <img src={island} alt="island board divider" />
@@ -112,12 +143,13 @@ function GameLoop(props) {
         </div>
         <BoardGrid
           // Are these all examples of wrongly mutating props..?
-          grid={comp.gameboard.grid}
+          grid={comp.gameboard.getGrid()}
           hits={comp.gameboard.getHits()}
           human={false}
           handleClick={handleShoot}
-          setupDone={props.setupDone}
+          setupDone={setupDone}
           sunkSquares={comp.gameboard.getSunkSquares()}
+          activeSquares={activeHuman}
         />
       </div>
     );

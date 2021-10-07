@@ -1,4 +1,4 @@
-import { isEqual } from "lodash";
+import { intersectionWith, isEqual } from "lodash";
 
 const Player = (gameboard, type) => {
   function attack(enemyBoard, coords) {
@@ -9,25 +9,25 @@ const Player = (gameboard, type) => {
     return [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10)];
   }
 
-  // Need to implement the hits array in gameboard..
-  function randomAttack(enemyBoard) {
-    let alreadyHit = true;
+  function randomAttack(enemyBoard, times) {
+    let hitArr = [];
     let randomNewCoords;
 
-    while (alreadyHit) {
-      randomNewCoords = _randomCoords();
-      alreadyHit = false;
-      if (enemyBoard.getHits() !== []) {
-        for (let i = 0; i < enemyBoard.getHits().length; i += 1) {
-          if (isEqual(enemyBoard.getHits()[i], randomNewCoords)) {
-            alreadyHit = true;
-            break;
-          }
+    for (let i = 0; i < times; i += 1) {
+      let alreadyHit = true;
+      while (alreadyHit) {
+        randomNewCoords = _randomCoords();
+        if (
+          !enemyBoard.onlyIncLetter([randomNewCoords], "h") &&
+          intersectionWith(hitArr, [randomNewCoords], isEqual).length === 0
+        ) {
+          alreadyHit = false;
+          hitArr.push(randomNewCoords);
+          enemyBoard.recieveAttack(randomNewCoords, enemyBoard.hitShip);
         }
       }
     }
-
-    return enemyBoard.recieveAttack(randomNewCoords, enemyBoard.hitShip);
+    return hitArr;
   }
   return { gameboard, attack, randomAttack };
 };

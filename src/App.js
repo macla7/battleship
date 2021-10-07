@@ -1,70 +1,33 @@
 import GameLoop from "./components/GameLoop";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faFire, faShip, faWater } from "@fortawesome/free-solid-svg-icons";
-import Player from "./logic/Player";
-import Gameboard from "./logic/Gameboard";
-import Ship from "./logic/Ship";
 
 import React, { useState } from "react";
 
 function App() {
   library.add(faFire, faShip, faWater);
-  let humanBoard;
-  let human;
-  let compBoard;
-  let comp;
   let staticInstructions =
     "Welcome to Battleship. Sink all your opponents boats first to win.";
 
   const [game, setGame] = useState(staticInstructions);
+  const [gameNum, setGameNum] = useState(1);
 
-  function handleSetupFinish() {
-    setGame(
-      <GameLoop
-        humanBoard={humanBoard}
-        compBoard={compBoard}
-        human={human}
-        comp={comp}
-        setupDone={true}
-        handleSetupFinish={handleSetupFinish}
-      />
-    );
-  }
-
-  console.log("App component rendered");
+  console.log("APP RENDERED HEEEEEEEEEEEERRRREEEEEE");
 
   function looper() {
-    let newPlay = newGame();
+    setGameNum((prevNum) => prevNum + 1);
     setGame(
       <GameLoop
-        humanBoard={newPlay.humanBoard}
-        compBoard={newPlay.compBoard}
-        human={newPlay.human}
-        comp={newPlay.comp}
-        setupDone={false}
-        handleSetupFinish={handleSetupFinish}
+        handleSetupStarted={looper}
+        newStart={false}
+        gameNum={gameNum}
       />
     );
-  }
-
-  function newGame() {
-    humanBoard = Gameboard(Ship);
-    compBoard = Gameboard(Ship, "comp");
-    human = Player(humanBoard, "human");
-    comp = Player(compBoard, "comp");
-    compBoard.placeRandom();
-    compBoard.placeRandom();
-    compBoard.placeRandom();
-    compBoard.placeRandom();
-    compBoard.placeRandom();
-    return { humanBoard, compBoard, human, comp };
   }
 
   function mainMenu() {
     setGame(staticInstructions);
   }
-
-  newGame();
 
   return (
     <div className="AppCont">

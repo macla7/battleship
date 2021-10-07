@@ -6,10 +6,6 @@ describe("createShip", () => {
     ship = Ship(2, "down", [2, 2]);
   });
 
-  test("ship has getter for length prop", () => {
-    expect(ship.getLength()).toBe(2);
-  });
-
   test("ship has getter for hits prop", () => {
     expect(ship.getHits()).toEqual(expect.arrayContaining([]));
   });
@@ -25,7 +21,7 @@ describe("createShip", () => {
         [2, 1],
       ])
     );
-    expect(ship.getSquares().length).toBe(ship.getLength());
+    expect(ship.getSquares().length).toBe(2);
   });
 
   test("hit method adds x&y to hits prop", () => {

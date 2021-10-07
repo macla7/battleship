@@ -18,8 +18,24 @@
       height: 30px;
     }
 
-    .anim {
-      animation: blast 0.2s 1;
+    .clickHit {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: clickHit 0.5s 1;
+    }
+
+    .clickMiss {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: clickMiss 0.5s 1;
+    }
+
+    .clickReg {
+      animation: clickReg 2s 1;
     }
   }
 
@@ -33,9 +49,6 @@
     background-color: rgba(255, 255, 0, 0.4);
   }
 
-  .ship {
-  }
-
   .hit {
     color: orangered;
   }
@@ -47,23 +60,53 @@
   }
 }
 
-@keyframes blast {
+@keyframes clickHit {
   0% {
     background-color: rgb(255, 0, 0);
     opacity: 1;
     width: 0.7rem;
     height: 0.7rem;
-    margin: -0.25em;
-    border-width: 0.5em;
+    border-radius: 100%;
+    border: 2px solid red;
+  }
+  49% {
+    background-color: rgb(255, 0, 0);
+    opacity: 0.7;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 100%;
+    border: 2px solid red;
+  }
+  50% {
+    background-color: rgb(250, 230, 150);
+    opacity: 0.5;
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 100%;
+    border: 2px solid red;
+  }
+  100% {
+    background-color: rgb(250, 230, 150);
+    opacity: 0.1;
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+  }
+}
+
+@keyframes clickMiss {
+  0% {
+    background-color: rgb(185, 225, 255);
+    opacity: 1;
+    width: 0.3rem;
+    height: 0.3rem;
     border-radius: 100%;
   }
   100% {
-    background-color: rgb(251, 233, 152);
+    background-color: rgb(0, 54, 170);
     opacity: 0.1;
-    width: 4rem;
-    height: 4rem;
-    margin: -7.5em;
-    border-width: 0.03em;
+    width: 3rem;
+    height: 3rem;
     border-radius: 100%;
   }
 }
@@ -92,4 +135,4 @@
 //         margin: -7.5em;
 //         border-width: 0.03em;
 //   }
-// }
+// };;

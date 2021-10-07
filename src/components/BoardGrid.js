@@ -1,11 +1,10 @@
-import { isInteger } from "lodash";
+import { intersectionWith, isInteger, isEqual } from "lodash";
 import React from "react";
 import uniqid from "uniqid";
 import Square from "./Square";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import shipboi from "../assets/shipboi.png";
 import dead from "../assets/dead.png";
-import { isEqual } from "lodash";
 
 function BoardGrid({
   grid,
@@ -15,6 +14,7 @@ function BoardGrid({
   setupDone,
   hoverGuide,
   sunkSquares = [],
+  activeSquares,
 }) {
   console.log("Board rendered");
   const squares = grid.map((colArr, i) => {
@@ -24,6 +24,7 @@ function BoardGrid({
       <div className="column" key={uniqid()}>
         {revCol.map((square, j) => {
           let squareClass = "square";
+          let innerClass = "";
           let icon = "";
           let xCoord = i;
           let yCoord = revCol.length - j - 1;
@@ -54,6 +55,17 @@ function BoardGrid({
             icon = "dead";
             squareClass += " dead";
           }
+          if (
+            intersectionWith(activeSquares, [[xCoord, yCoord]], isEqual)
+              .length === 1
+          ) {
+            if (square === "h") {
+              innerClass += " clickMiss";
+            }
+            if (square === "sh") {
+              innerClass += " clickHit";
+            }
+          }
 
           return (
             <Square
@@ -65,6 +77,8 @@ function BoardGrid({
               human={human}
               setupDone={setupDone}
               hoverGuide={hoverGuide}
+              icon={icon}
+              innerClass={innerClass}
             >
               {icon === "ship" ? (
                 <img src={shipboi} alt="Your Ship" />

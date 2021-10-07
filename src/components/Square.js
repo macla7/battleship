@@ -1,42 +1,28 @@
-import React, { useState } from "react";
+import React from "react";
 
 function Square({
   xCoord,
   yCoord,
   handleClick,
   children,
-  human,
   setupDone,
   hoverGuide,
   squareClass,
+  innerClass,
 }) {
   function shoot(e) {
-    handleClick([xCoord, yCoord], e);
-  }
-
-  const [anim, setAnim] = useState("");
-
-  function startAnim() {
-    if (!human || !setupDone) {
-      setAnim("anim");
-    }
+    handleClick([xCoord, yCoord], e.target);
   }
 
   function handleHover() {
-    console.log(setupDone);
     if (!setupDone) {
       hoverGuide([xCoord, yCoord]);
     }
   }
 
   return (
-    <div
-      onAnimationEnd={shoot}
-      onClick={startAnim}
-      onMouseEnter={handleHover}
-      className={squareClass}
-    >
-      <div className={anim + " innerSquare"}>{children}</div>
+    <div className={squareClass} onClick={shoot} onMouseEnter={handleHover}>
+      <div className={innerClass + " innerSquare"}>{children}</div>
     </div>
   );
 }

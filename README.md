@@ -10,3 +10,6 @@ An Odin Project, <a href='https://www.theodinproject.com/paths/full-stack-ruby-o
 <h2>Possible extra features</h2>
 <p>Human vs Human with some kind of cover screen whilst they pass device between them.</p>
 <p>Smart AI lol.</p>
+
+<h2>Hacks</h2>
+<p>Atm, the gameloop component only re-renders after every succesful shot because the 'turn' state counter is incremented. The grids passed down to the 'BoardGrid' components won't re-render on their own because the array still looks the same, and hence the BoardGrid component doesn't recognise a change in props</p>

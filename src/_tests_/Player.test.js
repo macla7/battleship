@@ -15,20 +15,25 @@ describe("new Player", () => {
 
   test("hmm", () => {});
 
-  // These even necessary? No logic in this function so I thiiiink maybee no..?
-  // test("attack returns true if square empty or ship", () => {
+  // Dont think it's neceesary to test player.attack, as it is purely another objects public method. No logic.
+  // It is tested in gameboard essentially..
+
+  // test("attack returns 'h' if square empty", () => {
   //   const recieveAttack = jest.fn();
-  //   recieveAttack.mockReturnValue(true);
+  //   recieveAttack.mockReturnValue('h');
   //   const boardMock = { recieveAttack };
 
-  //   expect(player.attack(boardMock, [1, 1])).toBe(true);
+  //   expect(player.attack(boardMock, [1, 1])).toBe('h');
   // });
 
-  // test("attack returns false if square hit", () => {
-  //   const recieveAttack = jest.fn();
-  //   recieveAttack.mockReturnValue(false);
-  //   const boardMock = { recieveAttack };
+  test("attackRandom returns hitArr of given length", () => {
+    const onlyIncLetter = jest.fn();
+    onlyIncLetter.mockReturnValue(false);
+    const recieveAttack = jest.fn();
+    recieveAttack.mockReturnValue(true);
+    const enemyBoard = { onlyIncLetter, recieveAttack };
 
-  //   expect(player.attack(boardMock, [1, 1])).toBe(false);
-  // });
+    expect(player.randomAttack(enemyBoard, 2)).toHaveLength(2);
+    expect(player.randomAttack(enemyBoard, 1)).not.toHaveLength(2);
+  });
 });
