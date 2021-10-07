@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/battleship/static/css/main.6a20e5dc.chunk.css",
+    "main.js": "/battleship/static/js/main.d3190958.chunk.js",
+    "main.js.map": "/battleship/static/js/main.d3190958.chunk.js.map",
+    "runtime-main.js": "/battleship/static/js/runtime-main.d9d13fce.js",
+    "runtime-main.js.map": "/battleship/static/js/runtime-main.d9d13fce.js.map",
+    "static/js/2.87a81556.chunk.js": "/battleship/static/js/2.87a81556.chunk.js",
+    "static/js/2.87a81556.chunk.js.map": "/battleship/static/js/2.87a81556.chunk.js.map",
+    "index.html": "/battleship/index.html",
+    "static/css/main.6a20e5dc.chunk.css.map": "/battleship/static/css/main.6a20e5dc.chunk.css.map",
+    "static/js/2.87a81556.chunk.js.LICENSE.txt": "/battleship/static/js/2.87a81556.chunk.js.LICENSE.txt",
+    "static/media/styles.scss": "/battleship/static/media/wallpaper.9818a07e.jpg",
+    "static/media/dead.bb83fa0a.png": "/battleship/static/media/dead.bb83fa0a.png",
+    "static/media/island.bc724c3c.png": "/battleship/static/media/island.bc724c3c.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.d9d13fce.js",
+    "static/js/2.87a81556.chunk.js",
+    "static/css/main.6a20e5dc.chunk.css",
+    "static/js/main.d3190958.chunk.js"
+  ]
+}
