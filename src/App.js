@@ -7,7 +7,7 @@ import React, { useState } from "react";
 function App() {
   library.add(faFire, faShip, faWater);
   let staticInstructions =
-    "Welcome to Battleship. Sink all your opponents boats first to win.";
+    "Welcome to Battleship. Sink all your opponents ships first to win.";
 
   const [game, setGame] = useState(staticInstructions);
   const [gameNum, setGameNum] = useState(1);
@@ -21,7 +21,7 @@ function App() {
         handleSetupStarted={looper}
         newStart={false}
         gameNum={gameNum}
-      />
+      ></GameLoop>
     );
   }
 
